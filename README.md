@@ -6,7 +6,7 @@ Function call that acts like a [using statement](https://docs.microsoft.com/en-u
 npm install --save using-statement
 ```
 
-* Supports synchronous, asynchronous, and iterator actions.
+* Supports synchronous, asynchronous, and generator functions.
 * Handles exceptions to ensure the resource is properly disposed.
 
 Before:
@@ -84,13 +84,13 @@ import { Camera } from "./Camera";
 })();
 ```
 
-Iterator example:
+Generator function example:
 
 ```ts
 import { using } from "using-statement";
 import { Camera } from "./Camera";
 
-const picturesIterator = using(new Camera(), camera => {
+const picturesIterator = using(new Camera(), function*(camera) {
     for (let i = 0; i < 10; i++)
         yield camera.takePictureSync();
 });
