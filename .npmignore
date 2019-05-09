@@ -1,0 +1,5 @@
+/dist/tests
+/src
+tsconfig.json
+mocha.opts
+.gitignore
