@@ -3,3 +3,4 @@
 tsconfig.json
 mocha.opts
 .gitignore
+yarn-error.log
