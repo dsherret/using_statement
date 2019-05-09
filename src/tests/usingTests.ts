@@ -33,6 +33,23 @@ describe("using", () => {
 
             expect(disposable.isDisposed).to.be.true;
         });
+
+        const methodNames = ["dispose", "close", "unsubscribe"];
+        for (const methodName of methodNames) {
+            it(`should dispose using #${methodName}()`, () => {
+                let isDisposed = false;
+                const obj = {
+                    [methodName]() {
+                        isDisposed = true;
+                    }
+                };
+                using(obj as any, () => {
+                    expect(isDisposed).to.be.false;
+                });
+
+                expect(isDisposed).to.be.true;
+            });
+        }
     });
 
     describe("async", () => {

@@ -1,9 +1,11 @@
 import { Disposable } from "./Disposable";
 
-export function using<TDisposable extends Disposable>(resource: TDisposable, func: (resource: TDisposable) => Promise<void>): Promise<void>;
-export function using<TDisposable extends Disposable, UIteratorItem>(resource: TDisposable, func: (resource: TDisposable) => IterableIterator<UIteratorItem>): IterableIterator<UIteratorItem>;
-export function using<TDisposable extends Disposable>(resource: TDisposable, func: (resource: TDisposable) => void): void;
-export function using<TDisposable extends Disposable, UIteratorItem>(resource: TDisposable, func: (resource: TDisposable) => void | Promise<void> | IterableIterator<UIteratorItem>): void | Promise<void> | IterableIterator<UIteratorItem> {
+type UsingObject = Disposable | { close(): void; } | { unsubscribe(): void; };
+
+export function using<TDisposable extends UsingObject>(resource: TDisposable, func: (resource: TDisposable) => Promise<void>): Promise<void>;
+export function using<TDisposable extends UsingObject, UIteratorItem>(resource: TDisposable, func: (resource: TDisposable) => IterableIterator<UIteratorItem>): IterableIterator<UIteratorItem>;
+export function using<TDisposable extends UsingObject>(resource: TDisposable, func: (resource: TDisposable) => void): void;
+export function using<TDisposable extends UsingObject, UIteratorItem>(resource: TDisposable, func: (resource: TDisposable) => void | Promise<void> | IterableIterator<UIteratorItem>): void | Promise<void> | IterableIterator<UIteratorItem> {
     let shouldDispose = true;
     try {
         const result = func(resource);
@@ -11,7 +13,7 @@ export function using<TDisposable extends Disposable, UIteratorItem>(resource: T
         // dispose it asynchronously if it returns a promise
         if (isPromise(result)) {
             shouldDispose = false;
-            return result.finally(() => resource.dispose());
+            return result.finally(() => dispose(resource));
         }
         else if (isIterator(result)) {
             shouldDispose = false;
@@ -29,7 +31,7 @@ export function using<TDisposable extends Disposable, UIteratorItem>(resource: T
                     throw err;
                 } finally {
                     if (shouldDispose)
-                        resource.dispose();
+                        dispose(resource);
                 }
             };
 
@@ -37,8 +39,20 @@ export function using<TDisposable extends Disposable, UIteratorItem>(resource: T
         }
     } finally {
         if (shouldDispose)
-            resource.dispose();
+            dispose(resource);
     }
+}
+
+const funcNames = ["dispose", "close", "unsubscribe"];
+function dispose(obj: UsingObject) {
+    for (const funcName of funcNames) {
+        if (typeof (obj as any)[funcName] === "function") {
+            (obj as any)[funcName]();
+            return;
+        }
+    }
+
+    throw new Error("Object provided to using did not have a dispose method.");
 }
 
 function isPromise(obj: unknown): obj is Promise<void> {

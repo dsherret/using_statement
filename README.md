@@ -6,9 +6,6 @@ Function call that acts like a [using statement](https://docs.microsoft.com/en-u
 npm install --save using-statement
 ```
 
-* Supports synchronous, asynchronous, and generator functions.
-* Handles exceptions to ensure the resource is properly disposed.
-
 Before:
 
 ```ts
@@ -30,6 +27,11 @@ using(new Camera(), camera => {
 });
 ```
 
+## Features
+
+* Supports synchronous, asynchronous, and generator functions.
+* Handles exceptions to ensure the resource is properly disposed.
+* Accepts objects with a `#dispose()`, `#close()`, or `#unsubscribe()` method.
 
 ## Examples
 
@@ -113,4 +115,3 @@ for (const picture of picturesIterator) {
 ### Todo
 
 * Support async dispose.
-* Support falling back to methods other than dispose (ex. `#close()`).
