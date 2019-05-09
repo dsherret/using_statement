@@ -26,7 +26,7 @@ After:
 import { using } from "using-statement";
 
 using(new Camera(), camera => {
-    outputPicture(camera.takePictureSync())
+    outputPicture(camera.takePictureSync());
 });
 ```
 
@@ -108,7 +108,7 @@ for (const picture of picturesIterator) {
 
 * C#'s [using statement](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/using-statement).
 * My old gist [here](https://gist.github.com/dsherret/cf5d6bec3d0f791cef00).
-* [ECMAScript using statement proposal](https://github.com/tc39/proposal-using-statement)
+* [ECMAScript using statement proposal](https://github.com/tc39/proposal-using-statement).
 
 ### Todo
 
