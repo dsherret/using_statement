@@ -64,4 +64,47 @@ describe("using", () => {
             expect(disposable.isDisposed).to.be.true;
         });
     });
+
+    describe("iterator", () => {
+        it("should handle disposing after done with an iterator", () => {
+            const disposable = new Disposable();
+            const result = using(disposable, function*() {
+                yield 0;
+                expect(disposable.isDisposed).to.be.false;
+                yield 1;
+                expect(disposable.isDisposed).to.be.false;
+            });
+
+            let value = 0;
+            for (const item of result) {
+                expect(disposable.isDisposed).to.be.false;
+                expect(item).to.equal(value);
+                value++;
+            }
+
+            expect(disposable.isDisposed).to.be.true;
+            expect(value).to.equal(2);
+        });
+
+        it("should handle disposing when an exception is thrown", () => {
+            const disposable = new Disposable();
+            const result = using(disposable, function*() {
+                yield 0;
+                throw new Error();
+            });
+
+            let value = 0;
+            try {
+                for (const item of result) {
+                    expect(item).to.equal(value);
+                    value++;
+                }
+            } catch {
+                // ignore
+            }
+
+            expect(disposable.isDisposed).to.be.true;
+            expect(value).to.equal(1);
+        });
+    });
 });
