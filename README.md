@@ -64,6 +64,8 @@ using(new Camera(), camera => {
     const picture = camera.takePictureSync();
     outputPicture(picture); // some function that outputs the picture
 });
+
+// camera is disposed here
 ```
 
 Asynchronous example:
@@ -77,6 +79,8 @@ import { Camera } from "./Camera";
         const picture = await camera.takePicture();
         outputPicture(picture);
     });
+
+    // camera is disposed here
 })();
 ```
 
@@ -109,4 +113,4 @@ for (const picture of picturesIterator) {
 ### Todo
 
 * Support async dispose.
-* Support fallback methods other than dispose (ex. `#close()`).
+* Support falling back to methods other than dispose (ex. `#close()`).
