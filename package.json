@@ -5,8 +5,9 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
+    "build": "tsc",
     "test": "mocha --opts mocha.opts",
-    "dopublish": "tsc && echo \"Run npm publish --otp\""
+    "dopublish": "yarn build && echo \"Run npm publish --otp\""
   },
   "repository": {
     "type": "git",
@@ -27,6 +28,7 @@
     "@types/mocha": "^5.2.6",
     "@types/node": "^12.0.0",
     "chai": "^4.2.0",
+    "conditional-type-checks": "^1.0.0",
     "mocha": "^6.1.4",
     "ts-node": "^8.1.0",
     "typescript": "^3.4.5"
