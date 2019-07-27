@@ -56,7 +56,10 @@ export function using<TDisposable extends UsingObject | AsyncUsingObject, TItera
 }
 
 const funcNames = ["dispose", "close", "unsubscribe"];
-function dispose(obj: UsingObject): void | Promise<void> {
+function dispose(obj: UsingObject | undefined): void | Promise<void> {
+    if (obj == null)
+        return;
+
     for (const funcName of funcNames) {
         if (typeof (obj as any)[funcName] === "function") {
             return (obj as any)[funcName]();

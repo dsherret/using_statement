@@ -99,6 +99,28 @@ describe("using", () => {
         it("should throw when providing an object that's not supported", () => {
             expect(() => using({} as any, () => {})).to.throw();
         });
+
+        it("should not error if providing undefined", () => {
+            let entered = false;
+            let disposable: Disposable | undefined = undefined;
+
+            using(disposable as any, () => {
+                entered = true;
+            });
+
+            expect(entered).to.be.true;
+        });
+
+        it("should not error if providing null", () => {
+            let entered = false;
+            let disposable: Disposable | null = null;
+
+            using(disposable as any, () => {
+                entered = true;
+            });
+
+            expect(entered).to.be.true;
+        });
     });
 
     describe("async", () => {
