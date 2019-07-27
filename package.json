@@ -1,6 +1,6 @@
 {
   "name": "using-statement",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "\"using statement\" in JavaScript and TypeScript.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -32,5 +32,8 @@
     "mocha": "^6.2.0",
     "ts-node": "^8.3.0",
     "typescript": "^3.5.3"
+  },
+  "standard-version": {
+    "tagPrefix": ""
   }
 }
