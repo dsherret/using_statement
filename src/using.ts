@@ -3,11 +3,26 @@ import { Disposable, AsyncDisposable } from "./Disposable";
 type UsingObject = Disposable | { close(): void; } | { unsubscribe(): void; };
 type AsyncUsingObject = AsyncDisposable | { close(): Promise<void>; } | { unsubscribe(): Promise<void>; };
 
-export function using<TDisposable extends UsingObject | AsyncUsingObject, TResult = void>(resource: TDisposable, func: (resource: TDisposable) => Promise<TResult>): Promise<TResult>;
-export function using<TDisposable extends UsingObject, UIteratorItem>(resource: TDisposable, func: (resource: TDisposable) => IterableIterator<UIteratorItem>): IterableIterator<UIteratorItem>;
-export function using<TDisposable extends AsyncUsingObject, TResult = void>(resource: TDisposable, func: (resource: TDisposable) => TResult): Promise<TResult>;
-export function using<TDisposable extends UsingObject, TResult = void>(resource: TDisposable, func: (resource: TDisposable) => TResult): TResult;
-export function using<TDisposable extends UsingObject | AsyncUsingObject, TIteratorItem, TResult>(resource: TDisposable, func: (resource: TDisposable) => TResult | Promise<TResult> | IterableIterator<TIteratorItem>): TResult | Promise<TResult> | IterableIterator<TIteratorItem> {
+export function using<TDisposable extends UsingObject | AsyncUsingObject, TResult = void>(
+    resource: TDisposable,
+    func: (resource: TDisposable) => Promise<TResult>
+): Promise<TResult>;
+export function using<TDisposable extends UsingObject, UIteratorItem>(
+    resource: TDisposable,
+    func: (resource: TDisposable) => IterableIterator<UIteratorItem>
+): IterableIterator<UIteratorItem>;
+export function using<TDisposable extends AsyncUsingObject, TResult = void>(
+    resource: TDisposable,
+    func: (resource: TDisposable) => TResult
+): Promise<TResult>;
+export function using<TDisposable extends UsingObject, TResult = void>(
+    resource: TDisposable,
+    func: (resource: TDisposable) => TResult
+): TResult;
+export function using<TDisposable extends UsingObject | AsyncUsingObject, TIteratorItem, TResult>(
+    resource: TDisposable,
+    func: (resource: TDisposable) => TResult | Promise<TResult> | IterableIterator<TIteratorItem>
+): TResult | Promise<TResult> | IterableIterator<TIteratorItem> {
     let shouldDispose = true;
     let result: TResult | Promise<TResult> | IterableIterator<TIteratorItem> | undefined = undefined;
     try {
@@ -61,9 +76,8 @@ function dispose(obj: UsingObject | undefined): void | Promise<void> {
         return;
 
     for (const funcName of funcNames) {
-        if (typeof (obj as any)[funcName] === "function") {
+        if (typeof (obj as any)[funcName] === "function")
             return (obj as any)[funcName]();
-        }
     }
 
     throw new Error("Object provided to using did not have a dispose method.");

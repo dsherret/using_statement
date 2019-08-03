@@ -40,8 +40,7 @@ describe("using", () => {
                 using(disposable, () => {
                     throw new Error();
                 });
-            }
-            catch {
+            } catch {
                 // do nothing
             }
 
