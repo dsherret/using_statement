@@ -1,5 +1,6 @@
 /dist/tests
 /src
+dprint.json
 tsconfig.json
 mocha.opts
 .gitignore
