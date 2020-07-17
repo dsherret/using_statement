@@ -1,27 +1,27 @@
 import { Disposable, AsyncDisposable } from "./Disposable";
 
-type UsingObject = Disposable | { close(): void; } | { unsubscribe(): void; };
-type AsyncUsingObject = AsyncDisposable | { close(): Promise<void>; } | { unsubscribe(): Promise<void>; };
+type UsingObject = Disposable | { close(): void } | { unsubscribe(): void };
+type AsyncUsingObject = AsyncDisposable | { close(): Promise<void> } | { unsubscribe(): Promise<void> };
 
 export function using<TDisposable extends UsingObject | AsyncUsingObject, TResult = void>(
     resource: TDisposable,
-    func: (resource: TDisposable) => Promise<TResult>
+    func: (resource: TDisposable) => Promise<TResult>,
 ): Promise<TResult>;
 export function using<TDisposable extends UsingObject, UIteratorItem>(
     resource: TDisposable,
-    func: (resource: TDisposable) => IterableIterator<UIteratorItem>
+    func: (resource: TDisposable) => IterableIterator<UIteratorItem>,
 ): IterableIterator<UIteratorItem>;
 export function using<TDisposable extends AsyncUsingObject, TResult = void>(
     resource: TDisposable,
-    func: (resource: TDisposable) => TResult
+    func: (resource: TDisposable) => TResult,
 ): Promise<TResult>;
 export function using<TDisposable extends UsingObject, TResult = void>(
     resource: TDisposable,
-    func: (resource: TDisposable) => TResult
+    func: (resource: TDisposable) => TResult,
 ): TResult;
 export function using<TDisposable extends UsingObject | AsyncUsingObject, TIteratorItem, TResult>(
     resource: TDisposable,
-    func: (resource: TDisposable) => TResult | Promise<TResult> | IterableIterator<TIteratorItem>
+    func: (resource: TDisposable) => TResult | Promise<TResult> | IterableIterator<TIteratorItem>,
 ): TResult | Promise<TResult> | IterableIterator<TIteratorItem> {
     let shouldDispose = true;
     let result: TResult | Promise<TResult> | IterableIterator<TIteratorItem> | undefined = undefined;
@@ -33,8 +33,7 @@ export function using<TDisposable extends UsingObject | AsyncUsingObject, TItera
             const capturedResult = result;
             shouldDispose = false;
             return result.finally(() => dispose(resource)).then(() => capturedResult);
-        }
-        else if (isIterator(result)) {
+        } else if (isIterator(result)) {
             shouldDispose = false;
             const originalNext = result.next!;
             result.next = function() {

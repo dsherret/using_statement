@@ -6,8 +6,8 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "test": "mocha --opts mocha.opts",
-    "format": "dprint \"**/*{.ts|.json}\"",
+    "test": "mocha",
+    "format": "dprint fmt",
     "dopublish": "yarn build && echo \"Run npm publish --otp\""
   },
   "repository": {
@@ -25,15 +25,14 @@
   },
   "homepage": "https://github.com/dsherret/using-statement#readme",
   "devDependencies": {
-    "@types/chai": "^4.1.7",
-    "@types/mocha": "^5.2.7",
-    "@types/node": "^12.6.8",
+    "@types/chai": "^4.2.11",
+    "@types/mocha": "^8.0.0",
+    "@types/node": "^14.0.23",
     "chai": "^4.2.0",
-    "conditional-type-checks": "^1.0.1",
-    "dprint": "^0.2.0",
-    "mocha": "^6.2.0",
-    "ts-node": "^8.3.0",
-    "typescript": "^3.5.3"
+    "conditional-type-checks": "^1.0.5",
+    "mocha": "^8.0.1",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.7"
   },
   "standard-version": {
     "tagPrefix": ""

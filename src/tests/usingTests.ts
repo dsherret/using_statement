@@ -85,7 +85,7 @@ describe("using", () => {
                 const obj = {
                     [methodName]() {
                         isDisposed = true;
-                    }
+                    },
                 };
                 using(obj as any, () => {
                     expect(isDisposed).to.be.false;

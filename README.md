@@ -29,10 +29,10 @@ using(new Camera(), camera => {
 
 ## Features
 
-* Supports synchronous, asynchronous, and generator functions.
-* Handles exceptions to ensure the resource is properly disposed.
-* Accepts objects with a `#dispose()`, `#close()`, or `#unsubscribe()` method.
-* Allows asynchronously disposing when using a synchronous or asynchronous function.
+- Supports synchronous, asynchronous, and generator functions.
+- Handles exceptions to ensure the resource is properly disposed.
+- Accepts objects with a `#dispose()`, `#close()`, or `#unsubscribe()` method.
+- Allows asynchronously disposing when using a synchronous or asynchronous function.
 
 ## Examples
 
@@ -100,15 +100,14 @@ const picturesIterator = using(new Camera(), function*(camera) {
 
 // camera is not disposed yet...
 
-for (const picture of picturesIterator) {
+for (const picture of picturesIterator)
     outputPicture(picture);
-}
 
 // camera is now disposed
 ```
 
 ### Inspiration
 
-* C#'s [using statement](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/using-statement).
-* My old gist [here](https://gist.github.com/dsherret/cf5d6bec3d0f791cef00).
-* [ECMAScript using statement proposal](https://github.com/tc39/proposal-using-statement).
+- C#'s [using statement](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/using-statement).
+- My old gist [here](https://gist.github.com/dsherret/cf5d6bec3d0f791cef00).
+- [ECMAScript using statement proposal](https://github.com/tc39/proposal-using-statement).
