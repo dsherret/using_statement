@@ -46,7 +46,7 @@ using(new Camera(), (camera) => {
 
 - Supports synchronous, asynchronous, and generator functions.
 - Handles exceptions to ensure the resource is properly disposed.
-- Accepts objects with a `#dispose()`, `#close()`, or `#unsubscribe()` method.
+- Accepts objects with a `dispose()`, `close()`, or `unsubscribe()` method.
 - Allows asynchronously disposing when using a synchronous or asynchronous
   function.
 
@@ -93,14 +93,12 @@ Asynchronous example:
 import { using } from "https://deno.land/x/using_statement/mod.ts";
 import { Camera } from "./Camera.ts";
 
-(async () => {
-  await using(new Camera(), async (camera) => {
-    const picture = await camera.takePicture();
-    outputPicture(picture);
-  });
+await using(new Camera(), async (camera) => {
+  const picture = await camera.takePicture();
+  outputPicture(picture);
+});
 
-  // camera is disposed here
-})();
+// camera is disposed here
 ```
 
 Generator function example:
